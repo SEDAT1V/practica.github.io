@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Металлургия Казахстана | 9 класс</title>
+
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --card-bg: rgba(18, 25, 44, 0.88);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --accent-cyan: #38bdf8;
+      --accent-indigo: #818cf8;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      color: var(--text-main);
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 20%, rgba(99, 102, 241, 0.15) 0px, transparent 50%);
+      background-attachment: fixed;
+      line-height: 1.5;
+      padding: 25px 15px;
+    }
+
+    .container { 
+      max-width: 680px; 
+      margin: 0 auto; 
+    }
+    
+    header { 
+      text-align: center; 
+      margin-bottom: 20px; 
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.8rem; 
+      font-weight: 800; 
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .subtitle { 
+      color: var(--text-muted); 
+      font-size: 0.95rem; 
+    }
+
+    .card {
+      background: var(--card-bg); 
+      border: 1px solid var(--card-border); 
+      padding: 22px 20px; 
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .name-input {
+      width: 100%; 
+      max-width: 300px; 
+      padding: 12px 16px; 
+      margin: 15px 0;
+      border-radius: 10px; 
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.08); 
+      color: #fff;
+      font-size: 1rem; 
+      outline: none;
+      -webkit-user-select: text;
+      user-select: text;
+    }
+
+    .quiz-header {
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      margin-bottom: 10px; 
+      color: var(--text-muted); 
+      font-size: 0.9rem;
+    }
+
+    #timer-display { 
+      font-weight: 700; 
+      color: var(--accent-cyan); 
+      font-size: 1.1rem; 
+    }
+
+    .progress-bar-container {
+      width: 100%; 
+      height: 6px; 
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px; 
+      margin-bottom: 16px; 
+      overflow: hidden;
+    }
+
+    .progress-bar-fill { 
+      height: 100%; 
+      width: 10%; 
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-indigo)); 
+      transition: width 0.3s ease; 
+    }
+
+    .task-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 5px;
+      background: rgba(129, 140, 248, 0.2);
+      color: var(--accent-indigo);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    #quiz-question { 
+      font-size: 1.05rem; 
+      margin-bottom: 15px; 
+      font-weight: 600; 
+      color: #fff; 
+    }
+
+    .quiz-option {
+      display: block; 
+      width: 100%; 
+      text-align: left; 
+      padding: 12px 14px; 
+      margin: 8px 0;
+      background: rgba(255, 255, 255, 0.05); 
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.1); 
+      border-radius: 10px;
+      cursor: pointer; 
+      font-size: 0.92rem; 
+      line-height: 1.3;
+    }
+
+    .correct { 
+      background: rgba(34, 197, 94, 0.25) !important; 
+      border-color: #22c55e !important; 
+      color: #86efac !important; 
+      font-weight: 600; 
+    }
+
+    .wrong { 
+      background: rgba(239, 68, 68, 0.25) !important; 
+      border-color: #ef4444 !important; 
+      color: #fca5a5 !important; 
+      font-weight: 600; 
+    }
+
+    #quiz-status { 
+      margin-top: 14px; 
+      font-size: 0.9rem; 
+      padding: 10px 14px; 
+      border-radius: 8px; 
+      display: none; 
+    }
+
+    .quiz-btn {
+      margin-top: 15px; 
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+      color: #090d16; 
+      border: none; 
+      border-radius: 8px; 
+      font-size: 0.95rem; 
+      font-weight: 700; 
+      cursor: pointer;
+    }
+
+    .result-box { 
+      text-align: center; 
+      padding: 10px 0; 
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;" oncopy="return false;" ondragstart="return false;">
+
+  <div class="container">
+    <header>
+      <div class="badge">9 класс • География</div>
+      <h1>Металлургия Казахстана</h1>
+      <p class="subtitle">§ 14. Центры добычи и переработки</p>
+    </header>
+
+    <div class="card">
+      
+      <!-- Стартовый экран -->
+      <div id="start-screen" style="text-align: center; padding: 10px 0;">
+        <h3 style="font-size: 1.25rem; margin-bottom: 10px; color: #fff;">Практическая работа</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 6px;">10 вопросов по черной и цветной металлургии.</p>
+        <p style="color: #ef4444; font-size: 0.85rem; margin-bottom: 15px;">На каждый вопрос даётся ровно 15 секунд!</p>
+        
+        <input type="text" id="student-name" class="name-input" placeholder="Имя и Фамилия" autocomplete="off">
+        <br>
+        <button class="quiz-btn" onclick="startQuiz()">Начать тест ⏱️</button>
+      </div>
+
+      <!-- Контейнер вопросов -->
+      <div id="quiz-container" style="display: none;">
+        <div class="quiz-header">
+          <span id="question-number">Вопрос 1 из 10</span>
+          <span id="timer-display">⏳ 15 сек</span>
+          <span id="score-counter">Баллы: 0</span>
+        </div>
+        <div class="progress-bar-container"><div id="progress-bar" class="progress-bar-fill"></div></div>
+        
+        <div id="task-badge" class="task-tag"></div>
+        <div id="quiz-question"></div>
+        <div id="quiz-options"></div>
+        <div id="quiz-status"></div>
+        
+        <button id="next-btn" class="quiz-btn" style="display: none;" onclick="nextQuestion()">Следующий вопрос →</button>
+      </div>
+
+      <!-- Экран финиша -->
+      <div id="quiz-result" class="result-box" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script>
+    const formspreeLink = "https://formspree.io/f/xyeewanz";
+
+    const rawQuestions = [
+      { section: "Задание 1: Черная металлургия", q: "Какова главная функция Горно-обогатительного комбината (ГОК)?", options: ["Получение чистого концентрата (метод флотации)", "Плавка чугуна", "Плавка стали", "Выпуск готового проката"], correct: 0, explanation: "ГОК обеспечивает получение концентрата методом флотации и обогащения сырой руды." },
+      { section: "Задание 1: Черная металлургия", q: "Каков основной технологический процесс Доменного цеха?", options: ["Плавка чугуна", "Плавка стали", "Получение концентрата", "Выпуск профильного проката"], correct: 0, explanation: "В доменных печах выплавляют первичный чугун из обогащенной руды." },
+      { section: "Задание 1: Черная металлургия", q: "Какова ключевая функция Сталелитейного цеха на комбинате?", options: ["Плавка стали", "Плавка чугуна", "Дробление и обогащение руды", "Холодная прокатка листов"], correct: 0, explanation: "Сталелитейный цех перерабатывает жидкий чугун и шихту в высококачественную сталь." },
+      { section: "Задание 1: Черная металлургия", q: "Какую функцию выполняет Прокатный цех металлургического завода?", options: ["Выпуск готовой продукции (листовой, трубный прокат)", "Выплавка первичного чугуна", "Флотация рудного сырья", "Переработка металлолома"], correct: 0, explanation: "Прокатные станы изготавливают готовую продукцию: листы, балки, рельсы и трубы." },
+      { section: "Задание 1: Черная металлургия", q: "В чём заключается специфика работы завода передельного цикла?", options: ["Работает исключительно на металлоломе", "Осуществляет полный цикл от руды до проката", "Занимается только добычей коксующегося угля", "Производит исключительно ферросплавы"], correct: 0, explanation: "Передельная металлургия не имеет доменного производства и плавит сталь из вторичного лома." },
+      { section: "Задание 2: Цветная металлургия", q: "Главным районом полиметаллической промышленности (свинец, цинк) в Казахстане является:", options: ["Рудный Алтай", "Центральный Казахстан", "Мугоджары", "Мангистау"], correct: 0, explanation: "Рудный Алтай (Восточный Казахстан) — крупнейшая полиметаллическая база страны." },
+      { section: "Задание 2: Цветная металлургия", q: "Крупнейшие месторождения меди сосредоточены в Центральном Казахстане, среди них — Жезказганское, Саяк и:", options: ["Конырат", "Соколовско-Сарбайское", "Лисаковское", "Каратау"], correct: 0, explanation: "Коныратское месторождение вместе с Жезказганом и Саяком составляет основу медного пояса." },
+      { section: "Задание 2: Цветная металлургия", q: "Свинцовый комбинат, перерабатывающий руду из Каратауского хребта, находится в городе:", options: ["Шымкент", "Темиртау", "Павлодар", "Актобе"], correct: 0, explanation: "Шымкентский свинцовый завод исторически перерабатывал полиметаллы хребта Каратау." },
+      { section: "Задание 2: Цветная металлургия", q: "Заводы по выплавке легких цветных металлов (алюминий, титан) при размещении всегда тяготеют к источникам:", options: ["Дешевой электроэнергии", "Дешевой рабочей силы", "Потребителя продукции", "Крупных лесных массивов"], correct: 0, explanation: "Выплавка легких металлов крайне энергоемка (до 21 000 кВт·ч на 1 т алюминия)." },
+      { section: "Задание 2: Цветная металлургия", q: "Завод по получению глинозема (сырья для производства алюминия) находится в городе:", options: ["Павлодар", "Усть-Каменогорск", "Балхаш", "Костанай"], correct: 0, explanation: "Павлодарский алюминиевый завод производит глинозем из бокситов для электролизного производства." }
+    ];
+
+    let activeQuestions = [];
+    let currentQuestionIndex = 0, score = 0, studentName = "", timerInterval, timeLeft = 15;
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function prepareQuestions() {
+      const shuffledQuestions = shuffle(rawQuestions);
+      return shuffledQuestions.map(item => {
+        const correctAnswerText = item.options[item.correct];
+        const shuffledOptions = shuffle(item.options);
+        return {
+          section: item.section,
+          q: item.q,
+          options: shuffledOptions,
+          correct: shuffledOptions.indexOf(correctAnswerText),
+          explanation: item.explanation
+        };
+      });
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById('student-name').value.trim();
+      if (!nameInput) { alert("Пожалуйста, введите ваше имя и фамилию!"); return; }
+      studentName = nameInput;
+
+      activeQuestions = prepareQuestions();
+      document.getElementById('start-screen').style.display = 'none';
+      document.getElementById('quiz-container').style.display = 'block';
+      currentQuestionIndex = 0; score = 0;
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const qData = activeQuestions[currentQuestionIndex];
+      document.getElementById('question-number').textContent = `Вопрос ${currentQuestionIndex + 1} из ${activeQuestions.length}`;
+      document.getElementById('score-counter').textContent = `Баллы: ${score}`;
+      document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / activeQuestions.length) * 100}%`;
+      
+      document.getElementById('task-badge').textContent = qData.section;
+      document.getElementById('quiz-question').textContent = qData.q;
+      
+      const optionsContainer = document.getElementById('quiz-options');
+      optionsContainer.innerHTML = '';
+      document.getElementById('quiz-status').style.display = 'none';
+      document.getElementById('next-btn').style.display = 'none';
+
+      qData.options.forEach((optText, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option'; btn.textContent = optText;
+        btn.onclick = () => selectOption(btn, index);
+        optionsContainer.appendChild(btn);
+      });
+      startTimer();
+    }
+
+    function startTimer() {
+      timeLeft = 15;
+      const timerDisplay = document.getElementById('timer-display');
+      timerDisplay.textContent = `⏳ ${timeLeft} сек`;
+      timerDisplay.style.color = "var(--accent-cyan)";
+      
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `⏳ ${timeLeft} сек`;
+        if (timeLeft <= 5) timerDisplay.style.color = "#ef4444";
+        if (timeLeft <= 0) { clearInterval(timerInterval); autoSkipQuestion(); }
+      }, 1000);
+    }
+
+    function autoSkipQuestion() {
+      currentQuestionIndex++;
+      currentQuestionIndex < activeQuestions.length ? renderQuestion() : showResults();
+    }
+
+    function selectOption(button, selectedIndex) {
+      clearInterval(timerInterval);
+      const qData = activeQuestions[currentQuestionIndex];
+      const buttons = document.querySelectorAll('.quiz-option');
+      const status = document.getElementById('quiz-status');
+      const nextBtn = document.getElementById('next-btn');
+
+      buttons.forEach(btn => btn.disabled = true);
+      status.style.display = 'block';
+
+      if (selectedIndex === qData.correct) {
+        button.classList.add('correct'); score++;
+        document.getElementById('score-counter').textContent = `Баллы: ${score}`;
+        status.innerHTML = `✅ <b>Верно!</b> ${qData.explanation}`;
+        status.style.background = "rgba(34, 197, 94, 0.15)"; status.style.color = "#86efac";
+      } else {
+        button.classList.add('wrong'); buttons[qData.correct].classList.add('correct');
+        status.innerHTML = `❌ <b>Неверно.</b> ${qData.explanation}`;
+        status.style.background = "rgba(239, 68, 68, 0.15)"; status.style.color = "#fca5a5";
+      }
+
+      nextBtn.textContent = currentQuestionIndex < activeQuestions.length - 1 ? "Следующий вопрос →" : "Завершить работу 🏁";
+      nextBtn.style.display = 'inline-block';
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      currentQuestionIndex < activeQuestions.length ? renderQuestion() : showResults();
+    }
+
+    function showResults() {
+      clearInterval(timerInterval);
+      document.getElementById('quiz-container').style.display = 'none';
+      const resultBox = document.getElementById('quiz-result');
+      resultBox.style.display = 'block';
+
+      let grade = score >= 9 ? "Отлично (9–10 баллов)" : (score >= 7 ? "Хорошо (7–8 баллов)" : (score >= 5 ? "Удовлетворительно (5–6)" : "Требуется доработка (< 5)"));
+
+      resultBox.innerHTML = `
+        <h4 style="font-size: 1.5rem; margin-bottom: 8px; color: #fff;">Работа завершена!</h4>
+        <p style="color: #fff; font-size: 1.15rem; margin-bottom: 4px;">Ученик: <b>${studentName}</b></p>
+        <p>Итоговый балл: <b>${score} из 10</b></p>
+        <p style="color: var(--accent-cyan); font-weight: 600; margin: 10px 0;">Оценка: ${grade}</p>
+        <div id="send-status" style="margin-top: 15px; font-size: 0.9rem; padding: 10px; border-radius: 8px; background: rgba(251, 191, 36, 0.15); color: #fbbf24;">
+          ⏳ Идёт отправка результатов учителю...
+        </div>
+        <button class="quiz-btn" style="margin-top: 15px;" onclick="restartQuiz()">Пройти заново</button>
+      `;
+
+      sendResultToEmail(grade);
+    }
+
+    function sendResultToEmail(grade) {
+      const statusDiv = document.getElementById('send-status');
+
+      fetch(formspreeLink, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "Ученик": studentName, "Тема": "§ 14. Металлургия РК", "Балл": `${score} из 10`, "Оценка": grade })
+      })
+      .then(res => {
+        if (res.ok) {
+          statusDiv.innerHTML = "✅ Результаты успешно отправлены учителю!";
+          statusDiv.style.background = "rgba(34, 197, 94, 0.15)"; statusDiv.style.color = "#86efac";
+        } else { throw new Error('Network error'); }
+      })
+      .catch(err => {
+        statusDiv.innerHTML = "❌ Ошибка при отправке результатов.";
+        statusDiv.style.background = "rgba(239, 68, 68, 0.15)"; statusDiv.style.color = "#fca5a5";
+      });
+    }
+
+    function restartQuiz() {
+      document.getElementById('quiz-result').style.display = 'none';
+      document.getElementById('start-screen').style.display = 'block';
+      document.getElementById('student-name').value = "";
+    }
+  </script>
+</body>
+</html>
